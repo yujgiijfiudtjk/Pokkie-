@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<!--
+  ═══════════════════════════════════════════════════════════
+  💖 3D LOVE GROUP INTRO — Firebase Edition (Online)
+  ───────────────────────────────────────────────────────────
+  ⚙️ এখন সব data Firebase Realtime Database এ সেভ হবে
+     সব ডিভাইস থেকে একই ডেটা দেখা যাবে এবং
+     এডমিন বদলালে সাথে সাথে সবার পেজে আপডেট হবে (real-time sync)
+  ═══════════════════════════════════════════════════════════
+-->
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>💖 Our Group — 3D Love Intro</title>
+  <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Cinzel:wght@400;700&family=Bebas+Neue&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <style>
+
+    /* Loading screen */
+    #loading-screen {
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #1a0033 0%, #2a0040 50%, #1a0033 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 99999;
+      transition: opacity 0.6s ease;
+    }
+    #loading-screen.hide {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .loader-heart {
+      font-size: 60px;
+      animation: beat 1s ease-in-out infinite;
+    }
+    @keyframes beat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+    }
+    .loader-text {
+      margin-top: 20px;
+      color: #ff6eb4;
+      font-family: 'Cinzel', serif;
+      font-size: 14px;
+      letter-spacing: 2px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 🔄 Loading screen -->
+  <div id="loading-screen">
+    <div class="loader-heart">💖</div>
+    <div class="loader-text">LOADING...</div>
+  </div>
+
+  <!-- 🌌 Nebula + Star background -->
+  <div id="nebula"></div>
+  <canvas id="starCanvas"></canvas>
+  <canvas id="heartCanvas"></canvas>
+
+  <!-- ⚙️ Admin Panel Button -->
+
+  <!-- ════════════════════════════════════════════
+       STAGE 1: INTRO — Group Logo + Name
+       ════════════════════════════════════════════ -->
+  <div id="intro-stage">
+    <div class="intro-heart-glow"></div>
+    <div class="intro-logo-wrap">
+      <img id="group-logo" src="" alt="Group Logo">
+    </div>
+    <div class="intro-text">
+      <div class="intro-name" id="intro-name">Our Group</div>
+      <div class="intro-tagline" id="intro-tagline">Forever Together 💖</div>
+    </div>
+  </div>
+
+  <!-- 💥 Burst particles container -->
+  <div id="burst-container"></div>
+
+  <!-- ════════════════════════════════════════════
+       STAGE 2: MEMBERS — 3D rotating heart ring
+       ════════════════════════════════════════════ -->
+  <div id="member-stage">
+    <div id="drag-container">
+      <div id="spin-container">
+        <!-- script.js automatically এ মেম্বার কার্ড যোগ করবে -->
+      </div>
+      <div id="ground"></div>
+    </div>
+  </div>
+
+  <!-- 🏷️ Final Title (bottom) -->
+  <div id="final-title">
+    <div class="main-text" id="final-name">Our Group</div>
+    <div class="sub-text" id="final-tagline">Forever Together</div>
+  </div>
+
+  <!-- 🎵 Background music (optional) -->
+  <audio id="bgm" src="./music.mp3" autoplay loop></audio>
+
+  <!-- ═════════════ Firebase SDK ═════════════ -->
+  <script type="module" src="firebase-config.js"></script>
+  <script src="script.js" defer></script>
+</body>
+</html>

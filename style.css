@@ -1,0 +1,361 @@
+/* ═══════════════════════════════════════════════════════════
+   💖 3D LOVE GROUP INTRO — Premium Stylesheet
+   ─────────────────────────────────────────────────────────── */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: #000008;
+  font-family: 'Dancing Script', cursive;
+  touch-action: none;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🌌 BACKGROUND LAYERS
+   ─────────────────────────────────────────────────────────── */
+#nebula {
+  position: fixed; inset: 0; z-index: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 30%, rgba(80,0,120,0.45) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 80% at 80% 70%, rgba(0,40,120,0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 50% at 50% 50%, rgba(120,0,60,0.25) 0%, transparent 70%),
+    #000008;
+}
+
+#starCanvas {
+  position: fixed; inset: 0; z-index: 1;
+  width: 100vw; height: 100vh;
+}
+
+#heartCanvas {
+  position: fixed; inset: 0; z-index: 2;
+  width: 100vw; height: 100vh;
+  opacity: 0.55;
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🎬 STAGE 1 — INTRO (Logo + Name)
+   ─────────────────────────────────────────────────────────── */
+#intro-stage {
+  position: fixed;
+  inset: 0;
+  z-index: 20;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  opacity: 1;
+  transition: opacity 0.6s ease-out, transform 0.8s cubic-bezier(.6,-0.3,.7,0);
+}
+
+/* Glowing heart background behind logo */
+.intro-heart-glow {
+  position: absolute;
+  width: 70vmin;
+  height: 70vmin;
+  background:
+    radial-gradient(circle at center,
+      rgba(255,60,170,0.55) 0%,
+      rgba(180,0,255,0.35) 30%,
+      rgba(120,0,200,0.15) 55%,
+      transparent 75%);
+  filter: blur(20px);
+  animation: heartBeat 1.4s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes heartBeat {
+  0%, 100% { transform: scale(1);   opacity: 0.85; }
+  50%      { transform: scale(1.15); opacity: 1;   }
+}
+
+.intro-logo-wrap {
+  position: relative;
+  width: 38vmin;
+  height: 38vmin;
+  border-radius: 50%;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 4px rgba(255,100,200,0.7),
+    0 0 40px rgba(255,60,180,0.8),
+    0 0 100px rgba(200,50,255,0.6),
+    inset 0 0 30px rgba(255,200,240,0.3);
+  animation: logoEntry 1.2s cubic-bezier(.2,1.4,.4,1) both,
+             logoPulse 2s ease-in-out 1.2s infinite;
+  background: #1a0030;
+}
+
+@keyframes logoEntry {
+  0%   { transform: scale(0)    rotate(-180deg); opacity: 0; }
+  60%  { transform: scale(1.1)  rotate(10deg);   opacity: 1; }
+  100% { transform: scale(1)    rotate(0deg);    opacity: 1; }
+}
+
+@keyframes logoPulse {
+  0%, 100% { box-shadow:
+              0 0 0 4px rgba(255,100,200,0.7),
+              0 0 40px rgba(255,60,180,0.8),
+              0 0 100px rgba(200,50,255,0.6),
+              inset 0 0 30px rgba(255,200,240,0.3); }
+  50%      { box-shadow:
+              0 0 0 4px rgba(255,180,230,1),
+              0 0 60px rgba(255,80,200,1),
+              0 0 140px rgba(220,80,255,0.9),
+              inset 0 0 50px rgba(255,220,250,0.5); }
+}
+
+#group-logo {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.intro-text {
+  margin-top: 4vh;
+  text-align: center;
+  animation: textEntry 1s ease-out 0.6s both;
+}
+
+@keyframes textEntry {
+  from { opacity: 0; transform: translateY(30px); }
+  to   { opacity: 1; transform: translateY(0);   }
+}
+
+.intro-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(2.5rem, 7vw, 5rem);
+  letter-spacing: 4px;
+  background: linear-gradient(135deg, #ff6eb4, #ff3cac, #b44fff, #6ef4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 22px rgba(255,60,180,0.9));
+}
+
+.intro-tagline {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.8rem, 2vw, 1.1rem);
+  color: rgba(220,180,255,0.85);
+  letter-spacing: 6px;
+  margin-top: 0.4em;
+  text-transform: uppercase;
+}
+
+/* Burst-out animation (triggered by JS) */
+#intro-stage.burst {
+  opacity: 0;
+  transform: scale(3) rotate(15deg);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   💥 BURST PARTICLES
+   ─────────────────────────────────────────────────────────── */
+#burst-container {
+  position: fixed; inset: 0;
+  z-index: 21;
+  pointer-events: none;
+}
+
+.burst-particle {
+  position: absolute;
+  left: 50%; top: 50%;
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: radial-gradient(circle, #fff 0%, #ff6eb4 40%, transparent 70%);
+  box-shadow: 0 0 14px rgba(255,100,200,1);
+  animation: burstOut 1.4s ease-out forwards;
+}
+
+@keyframes burstOut {
+  0%   { transform: translate(-50%, -50%) scale(0); opacity: 1; }
+  60%  { opacity: 1; }
+  100% { transform:
+          translate(calc(-50% + var(--dx)), calc(-50% + var(--dy)))
+          scale(0.2);
+         opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🎬 STAGE 2 — MEMBERS 3D CAROUSEL
+   ─────────────────────────────────────────────────────────── */
+#member-stage {
+  position: fixed; inset: 0; z-index: 3;
+  perspective: 1400px;
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0;
+  transition: opacity 1s ease-in;
+}
+
+#member-stage.show { opacity: 1; }
+
+#drag-container {
+  transform-style: preserve-3d;
+  transform: rotateX(-8deg) rotateY(0deg);
+  position: relative;
+}
+
+#spin-container {
+  transform-style: preserve-3d;
+  position: relative;
+  width: 140px;
+  height: 180px;
+  animation: spinY 50s infinite linear;
+}
+
+@keyframes spinY {
+  from { transform: rotateY(0deg); }
+  to   { transform: rotateY(360deg); }
+}
+
+/* Photo card (each member) */
+.photo-card {
+  position: absolute; left: 0; top: 0;
+  width: 140px; height: 180px;
+  transform-style: preserve-3d;
+  opacity: 0;
+  animation: cardReveal 0.6s ease-out forwards;
+}
+
+@keyframes cardReveal {
+  from { opacity: 0; transform: scale(0.2) translateZ(0); }
+  to   { opacity: 1; }
+}
+
+.photo-card .frame {
+  position: relative;
+  width: 100%; height: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  box-shadow:
+    0 0 0 2px rgba(255,100,180,0.7),
+    0 0 22px rgba(255,60,140,0.55),
+    0 0 55px rgba(180,0,255,0.35);
+  transition: box-shadow 0.3s, transform 0.3s;
+}
+
+.photo-card img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  -webkit-box-reflect: below 6px linear-gradient(transparent 60%, rgba(0,0,20,0.5));
+}
+
+.photo-card:hover .frame {
+  box-shadow:
+    0 0 0 3px rgba(255,200,230,1),
+    0 0 35px rgba(255,100,210,1),
+    0 0 90px rgba(220,80,255,0.7);
+  transform: scale(1.05);
+}
+
+/* Member name label below each card */
+.member-label {
+  position: absolute;
+  bottom: -28px;
+  left: 0; right: 0;
+  text-align: center;
+  font-family: 'Cinzel', serif;
+  font-size: 0.7rem;
+  color: rgba(255,220,250,0.9);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-shadow: 0 0 10px rgba(255,100,200,0.8);
+}
+
+/* Ground glow under carousel */
+#ground {
+  position: absolute;
+  top: 100%; left: 50%;
+  transform: translate(-50%, -50%) rotateX(90deg);
+  width: 900px; height: 900px;
+  border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(200,50,255,0.22), transparent 70%);
+}
+
+/* ═══════════════════════════════════════════════════════════
+   🏷️ FINAL TITLE (bottom)
+   ─────────────────────────────────────────────────────────── */
+#final-title {
+  position: fixed;
+  bottom: 6vh; left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0;
+  transition: opacity 1s ease-in 0.5s;
+}
+
+#final-title.show { opacity: 1; }
+
+#final-title .main-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(1.8rem, 5vw, 3rem);
+  letter-spacing: 5px;
+  background: linear-gradient(135deg, #ff6eb4, #ff3cac, #b44fff, #6ef4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 18px rgba(255,60,180,0.8));
+  animation: titlePulse 3s ease-in-out infinite;
+}
+
+#final-title .sub-text {
+  font-family: 'Cinzel', serif;
+  font-size: clamp(0.6rem, 1.5vw, 0.85rem);
+  color: rgba(180,140,255,0.85);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+@keyframes titlePulse {
+  0%, 100% { filter: drop-shadow(0 0 14px rgba(255,60,180,0.7)); }
+  50%      { filter: drop-shadow(0 0 28px rgba(200,80,255,1));   }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   ✨ SHOOTING STARS & FLOATING HEARTS
+   ─────────────────────────────────────────────────────────── */
+.shoot {
+  position: fixed; z-index: 2;
+  width: 2px; height: 80px;
+  background: linear-gradient(to bottom, rgba(255,255,255,0), #fff, rgba(255,200,255,0.8));
+  border-radius: 50%;
+  animation: shoot linear forwards;
+  pointer-events: none;
+}
+
+@keyframes shoot {
+  from { transform: translateX(0) translateY(0) rotate(35deg);  opacity: 1; }
+  to   { transform: translateX(400px) translateY(300px) rotate(35deg); opacity: 0; }
+}
+
+.float-heart {
+  position: fixed; z-index: 4;
+  font-size: 1.2rem;
+  pointer-events: none;
+  animation: floatUp linear forwards;
+  opacity: 0;
+}
+
+@keyframes floatUp {
+  0%   { transform: translateY(0) scale(0.5) rotate(-10deg); opacity: 0.9; }
+  100% { transform: translateY(-120vh) scale(1.2) rotate(10deg); opacity: 0; }
+}
+
+/* ═══════════════════════════════════════════════════════════
+   📱 TIKTOK VERTICAL (9:16) — Mobile adjustments
+   ─────────────────────────────────────────────────────────── */
+@media (max-aspect-ratio: 1/1) {
+  #spin-container {
+    width: 110px;
+    height: 145px;
+  }
+  .photo-card {
+    width: 110px;
+    height: 145px;
+  }
+}
